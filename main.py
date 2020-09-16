@@ -12,6 +12,9 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    if message.author.id == client.user.id:
+        return
+
     if re.findall('^l$', message.content):
         await message.channel.send('sauce lc 3#1')
 
