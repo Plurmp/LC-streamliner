@@ -29,8 +29,10 @@ async def on_message(message):
         as_toggle = re.search('^l asearch (.+?)$', message.content).group(1)
         if as_toggle == 'on':
             author_search = True
+            message.channel.send("Author search on")
         elif as_toggle == 'off':
             author_search = False
+            message.channel.send("Author search off")
 
     if message.author == '661826254215053324' \
             and re.findall('Looking up .+? by .+?\.', message.content) \
