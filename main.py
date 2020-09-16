@@ -40,7 +40,10 @@ async def on_message(message):
             and re.findall('Looking up .+? by .+?\.', message.content) \
             and author_search:
         # author ID is for License Checker
+        await message.channel.send('Author detected')
         author = re.match('Looking up .+? by (.+?)\.', message.content).groups()[0]
+        if author == ():
+            await message.channel.send('Could not get author')
         await message.channel.send(f'sauce -qa {author}')
 
 
