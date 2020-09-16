@@ -9,6 +9,7 @@ author_search = True
 
 print('In main.py')
 
+
 @client.event
 async def on_ready():
     print('Logged in as {0.user}'.format(client))
@@ -37,5 +38,6 @@ async def on_message(message):
         # author ID is for License Checker
         author = re.search('Looking up .+? by (.+?)\.', message.content).group(1)
         await message.channel.send(f'sauce -qa {author}')
+
 
 client.run(TOKEN)
