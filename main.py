@@ -42,7 +42,8 @@ async def on_message(message):
         author = re.match('^Looking up .+? by (.+?)\.$', message.content).groups()[0]
         if author == ():
             await message.channel.send('Could not get author')
-        await message.channel.send(f'sauce -qa {author}')
+        else:
+            await message.channel.send(f'sauce -qa {author}')
 
 
 client.run(TOKEN)
