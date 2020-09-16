@@ -29,10 +29,10 @@ async def on_message(message):
         as_toggle = re.match('^l asearch (.+?)$', message.content).groups()[0]
         if as_toggle == 'on':
             author_search = True
-            message.channel.send("Author search on")
+            await message.channel.send("Author search on")
         elif as_toggle == 'off':
             author_search = False
-            message.channel.send("Author search off")
+            await message.channel.send("Author search off")
         else:
             print("Author search switch error")
 
