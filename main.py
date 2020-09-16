@@ -1,7 +1,9 @@
 import re
+from os import environ as cred
 
 import discord
 
+TOKEN = cred['DISCORD_TOKEN']
 client = discord.Client()
 
 
@@ -22,3 +24,5 @@ async def on_message(message):
         # ID is for License checker bot
         author = re.search("Looking up .+? by (.+?)\.", message.content).group(1)
         await message.channel.send(f"sauce -qa {author}")
+
+client.run(TOKEN)
