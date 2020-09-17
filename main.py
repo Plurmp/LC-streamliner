@@ -36,7 +36,9 @@ async def on_message(message):
         else:
             print("Author search switch error")
 
-    if message.author.id == 661826254215053324 and author_search:
+    if message.author == 661826254215053324 \
+            and re.findall('^Looking up .+? by .+?\.$', message.content) \
+            and author_search:
         # author ID is for License Checker
         await message.channel.send('Author detected')
         author = re.match('^Looking up .+? by (.+?)\.$', message.content).groups()[0]
