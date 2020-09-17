@@ -1,4 +1,5 @@
 import re
+import time
 from os import environ as cred
 
 import discord
@@ -45,6 +46,7 @@ async def on_message(message):
         if author == ():
             await message.channel.send('Could not get author')
         else:
+            time.sleep(2)
             await message.channel.send(f'sauce -qa {author}')
 
 
