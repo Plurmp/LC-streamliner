@@ -84,7 +84,10 @@ async def on_message(message):
             await message.channel.send(embed=embed)
             return
         elif part_2.strip() == 'retry':
-            await message.channel.send(last_sriracha_lc[message.channel.name].content)
+            try:
+                await message.channel.send(last_sriracha_lc[message.channel.name].content)
+            except NameError:
+                await message.channel.send('Retry failed')
             return
         elif re.findall('^asearch .+?', part_2.strip()):
             as_toggle = re.match('^asearch (.+?)$', message.content).groups()[0]
