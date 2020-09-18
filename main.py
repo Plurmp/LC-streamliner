@@ -10,7 +10,7 @@ TOKEN = cred['DISCORD_TOKEN']
 client = discord.Client()
 author_search = True
 last_sriracha_message = {}
-last_sriracha_lc: {}
+last_sriracha_lc = {}
 
 # print('In main.py')
 
