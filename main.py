@@ -22,39 +22,41 @@ async def on_message(message):
     global author_search
     global last_sriracha_message
 
+    part_1 = re.match('^(.\S?)(.+)?$', message.content).groups()[0]
+    part_2 = re.match('^(.\S?)(.+)?$', message.content).groups()[1]
+
     if message.author.id == client.user.id:
         return
     elif message.author.id == 607661949194469376:  # sriracha
         last_sriracha_message[message.channel.name] = message
         return
 
-    if re.findall('^en$', message.content):
+    if part_1 == 'en':
         await last_sriracha_message[message.channel.name].add_reaction('🇺🇸')
         return
-    elif re.findall('^jp$', message.content):
+    elif part_1 == 'jp':
         await last_sriracha_message[message.channel.name].add_reaction('🇯🇵')
         return
-
-    if re.findall('^l$', message.content):
-        await message.channel.send('sauce lc 3#1')
-        return
-
-    if re.findall('^l asearch .+?$', message.content):
-        as_toggle = re.match('^l asearch (.+?)$', message.content).groups()[0]
-        if as_toggle == 'on':
-            author_search = True
-            await message.channel.send("Author search on")
+    elif part_1 == 'l':
+        if part_2 is None:
+            await message.channel.send('sauce lc 3#1')
             return
-        elif as_toggle == 'off':
-            author_search = False
-            await message.channel.send("Author search off")
+        elif part_2.strip() == 'move':
+            await message.channel.send("sauce move 3#1 4")
             return
-        else:
-            print("Author search switch error")
-            return
-
-    if re.findall('^l move$', message.content):
-        await message.channel.send("sauce move 3#1 4")
+        elif re.findall('^asearch .+?', part_2.strip()):
+            as_toggle = re.match('^asearch (.+?)$', message.content).groups()[0]
+            if as_toggle == 'on':
+                author_search = True
+                await message.channel.send("Author search on")
+                return
+            elif as_toggle == 'off':
+                author_search = False
+                await message.channel.send("Author search off")
+                return
+            else:
+                print("Author search switch error")
+                return
 
     if message.author.id == 661826254215053324 \
             and re.findall('^Looking up .+? by .+?\.$', message.content) \
