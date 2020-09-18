@@ -11,7 +11,7 @@ client = discord.Client()
 author_search = True
 last_sriracha_message = {}
 
-print('In main.py')
+# print('In main.py')
 
 
 @client.event
@@ -34,6 +34,7 @@ async def on_message(message):
         return
     elif message.author.id == 607661949194469376:  # sriracha
         last_sriracha_message[message.channel.name] = message
+        print(last_sriracha_message[message.channel.name].content)
         return
 
     if part_1 == 'en':
