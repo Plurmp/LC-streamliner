@@ -53,6 +53,9 @@ async def on_message(message):
             print("Author search switch error")
             return
 
+    if re.findall('^l move$', message.content):
+        await message.channel.send("sauce move 3#1 4")
+
     if message.author.id == 661826254215053324 \
             and re.findall('^Looking up .+? by .+?\.$', message.content) \
             and author_search:
@@ -66,6 +69,8 @@ async def on_message(message):
             time.sleep(2)
             await message.channel.send(f'sauce -qa {author}')
             return
+
+
 
 
 client.run(TOKEN)
