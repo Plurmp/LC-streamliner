@@ -1,6 +1,8 @@
 import re
 import time
+from datetime import datetime
 from os import environ as cred
+
 
 import discord
 
@@ -44,6 +46,28 @@ async def on_message(message):
         elif part_2.strip() == 'move':
             await message.channel.send("sauce move 3#1 4")
             return
+        elif part_2.strip() == 'help':
+            embed = discord.Embed(
+                title='Commands',
+                description='l: equivalent to `sauce lc 3#1`\n'
+                'l move: equivalent to `sauce move 3#1 4\n'
+                'l asearch [on | off]: turns automatic author search on or off\n'
+                '[en | jp]: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel\n',
+                color=discord.Color.from_rgb(171, 110, 71),
+                timestamp=datetime.now()
+            )
+            embed.set_author(
+                name='LC streamliner',
+                icon_url='https://cdn.discordapp.com/avatars/755803753000730725/3d3632c3ebc7a5ac3fffeb20387f4d40.png?size=256'
+            )
+            embed.set_footer(
+                text='Made by Plurmp McFlurnten#7538',
+                icon_url='https://cdn.discordapp.com/avatars/286339479910875136/2a9e61a6c9d706522a725ba15f3ed2d3.png?size=256'
+            )
+            embed.set_thumbnail(
+                url='https://cdn.discordapp.com/avatars/755803753000730725/3d3632c3ebc7a5ac3fffeb20387f4d40.png?size=256'
+            )
+            await message.channel.send(embed=embed)
         elif re.findall('^asearch .+?', part_2.strip()):
             as_toggle = re.match('^asearch (.+?)$', message.content).groups()[0]
             if as_toggle == 'on':
