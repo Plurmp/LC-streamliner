@@ -49,10 +49,10 @@ async def on_message(message):
         elif part_2.strip() == 'help':
             embed = discord.Embed(
                 title='Commands',
-                description='l: equivalent to `sauce lc 3#1`\n'
-                'l move: equivalent to `sauce move 3#1 4\n'
-                'l asearch [on | off]: turns automatic author search on or off\n'
-                '[en | jp]: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel\n',
+                description='`l`: equivalent to `sauce lc 3#1`\n\n'
+                '`l move`: equivalent to `sauce move 3#1 4`\n\n'
+                '`l asearch [on | off]`: turns automatic author search on or off\n\n'
+                '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel\n\n',
                 color=discord.Color.from_rgb(171, 110, 71),
                 timestamp=datetime.now()
             )
