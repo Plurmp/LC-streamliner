@@ -100,7 +100,7 @@ async def on_message(message):
                 await message.channel.send("Author search off")
                 return
             else:
-                print("Author search switch error")
+                await message.channel.send('On or off my guy')
                 return
 
     if message.author.id == 661826254215053324 \
