@@ -10,6 +10,7 @@ TOKEN = cred['DISCORD_TOKEN']
 client = discord.Client()
 author_search = True
 last_sriracha_message = {}
+last_sriracha_lc: {}
 
 # print('In main.py')
 
@@ -26,12 +27,15 @@ async def on_ready():
 async def on_message(message):
     global author_search
     global last_sriracha_message
+    global last_sriracha_lc
 
     if message.author.id == client.user.id:
         return
     elif message.author.id == 607661949194469376:  # sriracha
         last_sriracha_message[message.channel.name] = message
-        print(last_sriracha_message[message.channel.name].content)
+        # print(last_sriracha_message[message.channel.name].content)
+        if re.match('^\.lc.*', message.content):
+            last_sriracha_lc[message.channel.name] = message
         return
 
     try:
@@ -56,10 +60,12 @@ async def on_message(message):
         elif part_2.strip() == 'help':
             embed = discord.Embed(
                 title='Commands',
-                description='`l`: equivalent to `sauce lc 3#1`\n\n'
-                '`l move`: equivalent to `sauce move 3#1 4`\n\n'
-                '`l asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author)\n\n'
-                '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel\n\n',
+                description='`l`: equivalent to `sauce lc 3#1`.\n\n'
+                '`l move`: equivalent to `sauce move 3#1 4`.\n\n'
+                '`l asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n'
+                '`l retry`: repeats Sriracha\'s last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n'
+                '`l help` : this.\n\n'
+                '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n',
                 color=discord.Color.from_rgb(171, 110, 71),
                 timestamp=datetime.now()
             )
@@ -75,6 +81,10 @@ async def on_message(message):
                 url='https://cdn.discordapp.com/avatars/755803753000730725/3d3632c3ebc7a5ac3fffeb20387f4d40.png?size=256'
             )
             await message.channel.send(embed=embed)
+            return
+        elif part_2.strip() == 'retry':
+            await message.channel.send(last_sriracha_lc[message.channel])
+            return
         elif re.findall('^asearch .+?', part_2.strip()):
             as_toggle = re.match('^asearch (.+?)$', message.content).groups()[0]
             if as_toggle == 'on':
