@@ -27,17 +27,17 @@ async def on_message(message):
     global author_search
     global last_sriracha_message
 
-    try:
-        part_1 = re.match('^(.\S?)(.+)?$', message.content).groups()[0]
-        part_2 = re.match('^(.\S?)(.+)?$', message.content).groups()[1]
-    except AttributeError:
-        return
-
     if message.author.id == client.user.id:
         return
     elif message.author.id == 607661949194469376:  # sriracha
         last_sriracha_message[message.channel.name] = message
         print(last_sriracha_message[message.channel.name].content)
+        return
+
+    try:
+        part_1 = re.match('^(.\S?)(.+)?$', message.content).groups()[0]
+        part_2 = re.match('^(.\S?)(.+)?$', message.content).groups()[1]
+    except AttributeError:
         return
 
     if part_1 == 'en':
