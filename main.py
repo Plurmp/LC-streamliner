@@ -7,9 +7,7 @@ from os import environ as cred
 import discord
 
 TOKEN = cred['DISCORD_TOKEN']
-client = discord.Client(
-    activity=discord.Activity(name='Sriracha | l help', type='watching')
-)
+client = discord.Client()
 author_search = True
 last_sriracha_message = {}
 
@@ -18,6 +16,7 @@ print('In main.py')
 
 @client.event
 async def on_ready():
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Sriracha | l help'))
     print('Logged in as {0.user}'.format(client))
 
 
