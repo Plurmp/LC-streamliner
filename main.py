@@ -7,7 +7,9 @@ from os import environ as cred
 import discord
 
 TOKEN = cred['DISCORD_TOKEN']
-client = discord.Client()
+client = discord.Client(
+    activity=discord.Activity(name='Sriracha | l help', type='watching')
+)
 author_search = True
 last_sriracha_message = {}
 
