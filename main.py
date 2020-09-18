@@ -54,7 +54,7 @@ async def on_message(message):
                 title='Commands',
                 description='`l`: equivalent to `sauce lc 3#1`\n\n'
                 '`l move`: equivalent to `sauce move 3#1 4`\n\n'
-                '`l asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when Licence Checker identifies author)\n\n'
+                '`l asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when Licence Checker identifies the author)\n\n'
                 '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel\n\n',
                 color=discord.Color.from_rgb(171, 110, 71),
                 timestamp=datetime.now()
