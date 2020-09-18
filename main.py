@@ -36,6 +36,7 @@ async def on_message(message):
         # print(last_sriracha_message[message.channel.name].content)
         if re.match('^\.lc.*', message.content):
             last_sriracha_lc[message.channel.name] = message
+            print('last sriracha lc: ' + last_sriracha_lc[message.channel.name].content)
         return
 
     try:
