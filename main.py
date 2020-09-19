@@ -18,7 +18,7 @@ last_sriracha_lc = {}
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Activity(
-        type=discord.ActivityType.watching, name='Sriracha | l help'
+        type=discord.ActivityType.watching, name='Sriracha | lc help'
     ))
     print('Logged in as {0.user}'.format(client))
 
@@ -45,13 +45,13 @@ async def on_message(message):
     except AttributeError:
         return
 
-    if part_1 == 'en':
+    if part_1 == 'en' or part_1 == 'En':
         await last_sriracha_message[message.channel.name].add_reaction('🇺🇸')
         return
-    elif part_1 == 'jp':
+    elif part_1 == 'jp' or part_1 == 'Jp':
         await last_sriracha_message[message.channel.name].add_reaction('🇯🇵')
         return
-    elif part_1 == 'l':
+    elif part_1 == 'lc' or part_1 == 'Lc':
         if part_2 is None:
             await message.channel.send('sauce lc 3#1')
             return
@@ -61,11 +61,11 @@ async def on_message(message):
         elif part_2.strip() == 'help':
             embed = discord.Embed(
                 title='Commands',
-                description='`l`: equivalent to `sauce lc 3#1`.\n\n'
-                '`l move`: equivalent to `sauce move 3#1 4`.\n\n'
-                '`l asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n'
-                '`l retry`: repeats Sriracha\'s last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n'
-                '`l help` : this.\n\n'
+                description='`lc`: equivalent to `sauce lc 3#1`.\n\n'
+                '`lc move`: equivalent to `sauce move 3#1 4`.\n\n'
+                '`lc asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n'
+                '`lc retry`: repeats Sriracha\'s last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n'
+                '`lc help` : this.\n\n'
                 '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n',
                 color=discord.Color.from_rgb(171, 110, 71),
                 timestamp=datetime.now()
