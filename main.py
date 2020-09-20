@@ -45,13 +45,13 @@ async def on_message(message):
     except AttributeError:
         return
 
-    if part_1 == 'en' or part_1 == 'En':
+    if part_1.lower() == 'en':
         await last_sriracha_message[message.channel.name].add_reaction('🇺🇸')
         return
-    elif part_1 == 'jp' or part_1 == 'Jp':
+    elif part_1.lower() == 'jp':
         await last_sriracha_message[message.channel.name].add_reaction('🇯🇵')
         return
-    elif part_1 == 'lc' or part_1 == 'Lc':
+    elif part_1.lower() == 'lc':
         if not part_2:
             await message.channel.send('sauce lc 3#1')
             return
