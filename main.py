@@ -89,7 +89,8 @@ async def on_message(message):
             except NameError:
                 await message.channel.send('Retry failed')
             return
-        elif as_toggle := re.match('^asearch (.+?)$', message.content).groups()[0]:
+        elif re.findall('^asearch .+?', message.content):
+            as_toggle = re.match('^asearch (.+?)$', message.content).groups()[0]
             if as_toggle == 'on':
                 author_search = True
                 await message.channel.send("Author search on")
