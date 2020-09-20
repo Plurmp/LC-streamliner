@@ -25,7 +25,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    global author_search
+    global author_search, author
     global last_sriracha_message
     global last_sriracha_lc
 
@@ -89,8 +89,7 @@ async def on_message(message):
             except NameError:
                 await message.channel.send('Retry failed')
             return
-        elif re.findall('^asearch .+?', message.content):
-            as_toggle = re.match('^asearch (.+?)$', message.content).groups()[0]
+        elif (as_toggle := re.match('^asearch (.+?)$', message.content).groups()[0]) is not None:
             if as_toggle == 'on':
                 author_search = True
                 await message.channel.send("Author search on")
@@ -104,11 +103,10 @@ async def on_message(message):
                 return
 
     if message.author.id == 661826254215053324 \
-            and re.findall('^Looking up .+? by .+?\.$', message.content) \
+            and (author := re.match('^Looking up .+? by (.+?)\.$', message.content).groups()[0]) is not None \
             and author_search:
         # author ID is for License Checker
         await message.channel.send('Author detected')
-        author = re.match('^Looking up .+? by (.+?)\.$', message.content).groups()[0]
         if author == ():
             await message.channel.send('Could not get author')
             return
