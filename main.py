@@ -52,7 +52,7 @@ async def on_message(message):
         await last_sriracha_message[message.channel.name].add_reaction('🇯🇵')
         return
     elif part_1 == 'lc' or part_1 == 'Lc':
-        if part_2 is None:
+        if not part_2:
             await message.channel.send('sauce lc 3#1')
             return
         elif part_2.strip() == 'move':
@@ -89,8 +89,7 @@ async def on_message(message):
             except NameError:
                 await message.channel.send('Retry failed')
             return
-        elif re.findall('^asearch .+?', part_2.strip()):
-            as_toggle = re.match('^asearch (.+?)$', message.content).groups()[0]
+        elif as_toggle := re.match('^asearch (.+?)$', message.content).groups()[0]:
             if as_toggle == 'on':
                 author_search = True
                 await message.channel.send("Author search on")
