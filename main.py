@@ -3,13 +3,12 @@ import time
 from datetime import datetime
 from os import environ as cred
 
-
 import discord
 
 TOKEN = cred['DISCORD_TOKEN']
 client = discord.Client()
 author_search = True
-last_sriracha_message = {}
+last_sriracha_embed = {}
 last_sriracha_lc = {}
 
 # print('In main.py')
@@ -26,15 +25,16 @@ async def on_ready():
 @client.event
 async def on_message(message):
     global author_search
-    global last_sriracha_message
+    global last_sriracha_embed
     global last_sriracha_lc
 
     if message.author.id == client.user.id:
         return
     elif message.author.id == 607661949194469376:  # sriracha
-        last_sriracha_message[message.channel.name] = message
-        # print(last_sriracha_message[message.channel.name].content)
-        if re.match('^\.lc.*', message.content):
+        if message.embeds:
+            last_sriracha_embed[message.channel.name] = message
+        # print(last_sriracha_embed[message.channel.name].content)
+        elif re.match('^\.lc.*', message.content):
             last_sriracha_lc[message.channel.name] = message
             print('last sriracha lc: ' + last_sriracha_lc[message.channel.name].content)
         return
@@ -46,10 +46,10 @@ async def on_message(message):
         return
 
     if part_1.lower() == 'en':
-        await last_sriracha_message[message.channel.name].add_reaction('🇺🇸')
+        await last_sriracha_embed[message.channel.name].add_reaction('🇺🇸')
         return
     elif part_1.lower() == 'jp':
-        await last_sriracha_message[message.channel.name].add_reaction('🇯🇵')
+        await last_sriracha_embed[message.channel.name].add_reaction('🇯🇵')
         return
     elif part_1.lower() == 'lc':
         if not part_2:
