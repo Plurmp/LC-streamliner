@@ -39,6 +39,20 @@ async def on_message(message):
             print('last sriracha lc: ' + last_sriracha_lc[message.channel.name].content)
         return
 
+    if message.author.id == 661826254215053324 \
+            and re.findall('^Looking up .+? by .+?\.$', message.content) \
+            and author_search:
+        # author ID is for License Checker
+        await message.channel.send('Author detected')
+        author = re.match('^Looking up .+? by (.+?)\.$', message.content).groups()[0]
+        if author == ():
+            await message.channel.send('Could not get author')
+            return
+        else:
+            time.sleep(2)
+            await message.channel.send(f'sauce -qa {author}')
+            return
+
     try:
         part_1 = re.match('^(.\S?)(.+)?$', message.content).groups()[0]
         part_2 = re.match('^(.\S?)(.+)?$', message.content).groups()[1]
@@ -102,20 +116,6 @@ async def on_message(message):
             else:
                 await message.channel.send('On or off my guy')
                 return
-
-    if message.author.id == 661826254215053324 \
-            and re.findall('^Looking up .+? by .+?\.$', message.content) \
-            and author_search:
-        # author ID is for License Checker
-        await message.channel.send('Author detected')
-        author = re.match('^Looking up .+? by (.+?)\.$', message.content).groups()[0]
-        if author == ():
-            await message.channel.send('Could not get author')
-            return
-        else:
-            time.sleep(2)
-            await message.channel.send(f'sauce -qa {author}')
-            return
 
 
 client.run(TOKEN)
