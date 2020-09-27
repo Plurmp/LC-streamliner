@@ -30,7 +30,7 @@ async def on_message(message):
 
     if message.author.id == client.user.id:
         return
-    elif message.author.id == 607661949194469376:  # sriracha
+    elif message.author.id == 607661949194469376 or message.author.id == 640402425395675178:  # sriracha or oh sheet
         if message.embeds:
             last_sriracha_embed[message.channel.name] = message
         # print(last_sriracha_embed[message.channel.name].content)
