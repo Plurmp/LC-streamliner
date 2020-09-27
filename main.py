@@ -50,7 +50,8 @@ async def on_message(message):
             return
         else:
             time.sleep(2)
-            await message.channel.send(f'sauce -qa {author}')
+            author_fixed = re.sub('-', '~', author)
+            await message.channel.send(f'sauce -qa {author_fixed}')
             return
 
     try:
