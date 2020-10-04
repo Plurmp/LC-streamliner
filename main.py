@@ -100,7 +100,11 @@ async def on_message(message):
             return
         elif part_2.strip() == 'retry':
             try:
+                before_author_search = author_search
+                author_search = False
                 await message.channel.send(last_sriracha_lc[message.channel.name].content)
+                time.sleep(2)
+                author_search = before_author_search
             except NameError:
                 await message.channel.send('Retry failed')
             return
