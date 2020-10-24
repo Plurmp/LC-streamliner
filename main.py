@@ -76,14 +76,22 @@ async def on_message(message):
         elif part_2.strip() == 'help':
             embed = discord.Embed(
                 title='Commands',
-                description='`lc`: equivalent to `sauce lc 3#1`.\n\n'
+                color=discord.Color.from_rgb(171, 110, 71),
+                timestamp=datetime.now()
+            )
+            embed.add_field(
+                name='QC shortcuts',
+                value='`qc`: equivalent to `sauce 1#1`.\n\n'
+                '`qc move`: equivalent to `sauce move 1#1 2`.\n\n'
+            )
+            embed.add_field(
+                name='LC shortcuts',
+                value='`lc`: equivalent to `sauce lc 3#1`.\n\n'
                 '`lc move`: equivalent to `sauce move 3#1 4`.\n\n'
                 '`lc asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n'
                 '`lc retry`: repeats Sriracha\'s last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n'
                 '`lc help` : this.\n\n'
-                '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n',
-                color=discord.Color.from_rgb(171, 110, 71),
-                timestamp=datetime.now()
+                '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n'
             )
             embed.set_author(
                 name='LC streamliner',
@@ -121,6 +129,12 @@ async def on_message(message):
             else:
                 await message.channel.send('On or off my guy')
                 return
+    elif part_1.lower == 'qc':
+        if not part_2:
+            await message.channel.send('sauce 1#1')
+            return
+        if part_2.strip() == 'move':
+            await message.channel.send('sauce ')
 
 
 client.run(TOKEN)
