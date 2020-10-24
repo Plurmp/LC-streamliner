@@ -82,7 +82,8 @@ async def on_message(message):
             embed.add_field(
                 name='QC shortcuts',
                 value='`qc`: equivalent to `sauce 1#1`.\n\n'
-                '`qc move`: equivalent to `sauce move 1#1 2`.\n\n'
+                '`qc move`: equivalent to `sauce move 1#1 2`.\n\n',
+                inline=False
             )
             embed.add_field(
                 name='LC shortcuts',
@@ -91,7 +92,8 @@ async def on_message(message):
                 '`lc asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n'
                 '`lc retry`: repeats Sriracha\'s last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n'
                 '`lc help` : this.\n\n'
-                '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n'
+                '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n',
+                inline=False
             )
             embed.set_author(
                 name='LC streamliner',
