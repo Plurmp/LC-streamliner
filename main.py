@@ -66,12 +66,12 @@ async def on_message(message):
     elif part_1.lower() == 'jp':
         await last_sriracha_embed[message.channel.name].add_reaction('🇯🇵')
         return
-    elif part_1.lower == 'qc':
+    elif part_1.lower() == 'qc':
         if not part_2:
             await message.channel.send('sauce 1#1')
             return
         if part_2.strip() == 'move':
-            await message.channel.send('sauce ')
+            await message.channel.send('sauce move 1#1 2')
     elif part_1.lower() == 'lc':
         if not part_2:
             await message.channel.send('sauce lc 3#1')
