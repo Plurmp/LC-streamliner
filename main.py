@@ -11,6 +11,7 @@ author_search = True
 last_sriracha_embed = {}
 last_sriracha_lc = {}
 
+
 # print('In main.py')
 
 
@@ -57,6 +58,7 @@ async def on_message(message):
     try:
         part_1 = re.match('^(.\S?)(.+)?$', message.content).groups()[0]
         part_2 = re.match('^(.\S?)(.+)?$', message.content).groups()[1]
+        part_3 = re.match('^(.\S?)(.+)?(.+)?$', message.content).groups()[2]
     except AttributeError:
         return
 
@@ -67,11 +69,19 @@ async def on_message(message):
         await last_sriracha_embed[message.channel.name].add_reaction('🇯🇵')
         return
     elif part_1.lower() == 'qc':
+        qc_id = re.match('(\d)#(\d+)', part_2.strip()).groups()
         if not part_2:
             await message.channel.send('sauce 1#1')
             return
-        if part_2.strip() == 'move':
-            await message.channel.send('sauce move 1#1 2')
+        elif part_2.strip() == 'move':
+            if part_3:
+                qc_id = re.match('(\d)#(\d+)', part_3.strip()).groups()
+                await message.channel.send(f'sauce move {qc_id[0]}#{qc_id[1]} {int(qc_id[0]) + 1}')
+            else:
+                await message.channel.send('sauce move 1#1 2')
+                return
+        elif qc_id:
+            await message.channel.send(f'sauce {qc_id[0]}#{qc_id[1]}')
     elif part_1.lower() == 'lc':
         if not part_2:
             await message.channel.send('sauce lc 3#1')
@@ -87,18 +97,18 @@ async def on_message(message):
             )
             embed.add_field(
                 name='QC shortcuts',
-                value='`qc`: equivalent to `sauce 1#1`.\n\n'
-                '`qc move`: equivalent to `sauce move 1#1 2`.\n\n',
+                value='`qc [id]`: equivalent to `sauce [id]` (defaults to 1#1).\n\n'
+                      '`qc move [id]`: equivalent to `sauce move [id] 2` (defaults to 1#1).\n\n',
                 inline=True
             )
             embed.add_field(
                 name='LC shortcuts',
                 value='`lc`: equivalent to `sauce lc 3#1`.\n\n'
-                '`lc move`: equivalent to `sauce move 3#1 4`.\n\n'
-                '`lc asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n'
-                '`lc retry`: repeats Sriracha\'s last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n'
-                '`lc help` : this.\n\n'
-                '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n',
+                      '`lc move`: equivalent to `sauce move 3#1 4`.\n\n'
+                      '`lc asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n'
+                      '`lc retry`: repeats Sriracha\'s last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n'
+                      '`lc help` : this.\n\n'
+                      '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n',
                 inline=True
             )
             embed.set_author(
