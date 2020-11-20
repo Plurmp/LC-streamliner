@@ -62,7 +62,7 @@ async def on_message(message):
 	try:
 		args = re.match(
 			'^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help)?(?:\s(?P<switch>on|off))?(?P<list_id>\d#\d)?$',
-			message.content.trim()
+			message.content.trim().lower()
 		)
 		prefix = args.group('prefix')
 		cmd = args.group('cmd')
