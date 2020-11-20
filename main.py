@@ -55,30 +55,15 @@ async def on_message(message):
 			await message.channel.send(f'sauce -qa {author_fixed}')
 			return
 
-	prefix = None
-	cmd = None
-	switch = None
-	list_id = None
-	try:
-		args = re.match(
-			'^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help)?(?:\s(?P<switch>on|off))?(?P<list_id>\d#\d)?$',
-			message.content.trim().lower()
-		)
-		prefix = args.group('prefix')
-		cmd = args.group('cmd')
-		switch = args.group('switch')
-		list_id = args.group('list_id')
-		print(
-			f'Inside try statement:\n'
-			f'prefix: {prefix}\n'
-			f'cmd: {cmd}\n'
-			f'switch: {switch}\n'
-			f'list_id: {list_id}\n'
-		)
-	except AttributeError:
-		return
+	args = re.match(
+		'^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help)?(?:\s(?P<switch>on|off))?(?P<list_id>\d#\d)?$',
+		message.content.trim().lower()
+	)
+	prefix = args.group('prefix')
+	cmd = args.group('cmd')
+	switch = args.group('switch')
+	list_id = args.group('list_id')
 	print(
-		f'Outside try statement:\n'
 		f'prefix: {prefix}\n'
 		f'cmd: {cmd}\n'
 		f'switch: {switch}\n'
