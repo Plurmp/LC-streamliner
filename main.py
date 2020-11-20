@@ -42,9 +42,7 @@ async def on_message(message):
 			print('last sriracha lc: ' + last_sriracha_lc[message.channel.name].content)
 		return
 
-	if message.author.id == 661826254215053324 \
-			and re.findall('^Looking up .+ by .+?\.$', message.content) \
-			and author_search:
+	if message.author.id == 661826254215053324 and re.findall('^Looking up .+ by .+?\.$', message.content) and author_search:
 		# author ID is for License Checker
 		await message.channel.send('Author detected')
 		author = re.match('^Looking up .+ by (.+?)\.$', message.content).groups()[0]
@@ -70,18 +68,22 @@ async def on_message(message):
 		cmd = args.group('cmd')
 		switch = args.group('switch')
 		list_id = args.group('list_id')
-		print(f'Inside try statement:\n'
-			  f'prefix: {prefix}\n'
-			  f'cmd: {cmd}\n'
-			  f'switch: {switch}\n'
-			  f'list_id: {list_id}\n')
+		print(
+			f'Inside try statement:\n'
+			f'prefix: {prefix}\n'
+			f'cmd: {cmd}\n'
+			f'switch: {switch}\n'
+			f'list_id: {list_id}\n'
+		)
 	except AttributeError:
 		return
-	print(f'Outside try statement:\n'
-		  f'prefix: {prefix}\n'
-		  f'cmd: {cmd}\n'
-		  f'switch: {switch}\n'
-		  f'list_id: {list_id}\n')
+	print(
+		f'Outside try statement:\n'
+		f'prefix: {prefix}\n'
+		f'cmd: {cmd}\n'
+		f'switch: {switch}\n'
+		f'list_id: {list_id}\n'
+	)
 
 	if not prefix:
 		return
@@ -158,23 +160,23 @@ async def on_message(message):
 			embed.add_field(
 				name='QC shortcuts',
 				value='`qc [id]`: equivalent to `sauce [id]` (defaults to 1#1).\n\n'
-					  '`qc move [id]`: equivalent to `sauce move [id] 2` (defaults to 1#1).\n\n',
+				'`qc move [id]`: equivalent to `sauce move [id] 2` (defaults to 1#1).\n\n',
 				inline=True
 			)
 			embed.add_field(
 				name='Sorting shortcuts',
 				value='`st [id]`: equivalent to `sauce [id]` (defaults to 2#1).\n\n'
-					  '`st move [id]`: equivalent to `sauce move [id] 3` (defaults to 2#1).\n\n',
+				'`st move [id]`: equivalent to `sauce move [id] 3` (defaults to 2#1).\n\n',
 				inline=True
 			)
 			embed.add_field(
 				name='LC shortcuts',
 				value='`lc`: equivalent to `sauce lc 3#1`.\n\n'
-					  '`lc move`: equivalent to `sauce move 3#1 4`.\n\n'
-					  '`lc asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n'
-					  '`lc retry`: repeats Sriracha\'s last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n'
-					  '`lc help` : this.\n\n'
-					  '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n',
+				'`lc move`: equivalent to `sauce move 3#1 4`.\n\n'
+				'`lc asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n'
+				'`lc retry`: repeats Sriracha\'s last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n'
+				'`lc help` : this.\n\n'
+				'`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n',
 				inline=True
 			)
 			embed.set_author(
