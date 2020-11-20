@@ -68,8 +68,18 @@ async def on_message(message):
 		cmd = args.group('cmd')
 		switch = args.group('switch')
 		list_id = args.group('list_id')
+		print(f'Inside try statement:\n'
+			  f'prefix: {prefix}\n'
+			  f'cmd: {cmd}\n'
+			  f'switch: {switch}\n'
+			  f'list_id: {list_id}\n')
 	except AttributeError:
 		return
+	print(f'Outside try statement:\n'
+		  f'prefix: {prefix}\n'
+		  f'cmd: {cmd}\n'
+		  f'switch: {switch}\n'
+		  f'list_id: {list_id}\n')
 
 	if not prefix:
 		return
