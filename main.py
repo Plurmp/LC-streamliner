@@ -75,56 +75,56 @@ async def on_message(message):
 	elif prefix == 'qc':
 		if not cmd:
 			if not list_id:
-				message.channel.send('sauce 1#1')
+				await message.channel.send('sauce 1#1')
 				return
 			else:
-				message.channel.send(f'sauce {list_id}')
+				await message.channel.send(f'sauce {list_id}')
 				return
 		elif cmd == 'move':
 			if not list_id:
-				message.channel.send('sauce move 1#1 2')
+				await message.channel.send('sauce move 1#1 2')
 				return
 			else:
-				message.channel.send(f'sauce move {list_id} 2')
+				await message.channel.send(f'sauce move {list_id} 2')
 				return
 	elif prefix == 'st':
 		if not cmd:
 			if not list_id:
-				message.channel.send('sauce 2#1')
+				await message.channel.send('sauce 2#1')
 				return
 			else:
-				message.channel.send(f'sauce {list_id}')
+				await message.channel.send(f'sauce {list_id}')
 				return
 		elif cmd == 'move':
 			if not list_id:
-				message.channel.send('sauce move 2#1 3')
+				await message.channel.send('sauce move 2#1 3')
 				return
 			else:
-				message.channel.send(f'sauce move {list_id} 3')
+				await message.channel.send(f'sauce move {list_id} 3')
 				return
 	elif prefix == 'lc':
 		if not cmd:
 			if not list_id:
-				message.channel.send('sauce lc 3#1')
+				await message.channel.send('sauce lc 3#1')
 				return
 			else:
-				message.channel.send(f'sauce lc {list_id}')
+				await message.channel.send(f'sauce lc {list_id}')
 				return
 		elif cmd == 'move':
 			if not list_id:
-				message.channel.send('sauce move 3#1 4')
+				await message.channel.send('sauce move 3#1 4')
 				return
 			else:
-				message.channel.send(f'sauce move {list_id} 4')
+				await message.channel.send(f'sauce move {list_id} 4')
 				return
 		elif cmd == 'asearch':
 			if switch == 'on':
 				author_search = True
-				message.channel.send('Author search on')
+				await message.channel.send('Author search on')
 				return
 			elif switch == 'off':
 				author_search = False
-				message.channel.send('Author search off')
+				await message.channel.send('Author search off')
 				return
 		elif cmd == 'retry':
 			try:
