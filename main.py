@@ -29,6 +29,8 @@ async def on_message(message):
 	global last_sriracha_embed
 	global last_sriracha_lc
 
+	print('Received message')
+
 	if message.author.id == client.user.id:
 		return
 	elif message.author.id == 607661949194469376 or message.author.id == 640402425395675178:  # sriracha or oh sheet
