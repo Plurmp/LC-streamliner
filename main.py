@@ -56,7 +56,7 @@ async def on_message(message):
 			return
 
 	args = re.match(
-		'^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help)?(?:\s(?P<switch>on|off))?(?P<list_id>\d#\d+)?$',
+		'^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help)?(?:\s(?P<switch>on|off))?(?P<list_id>\d+)?$',
 		message.content.strip().lower()
 	)
 	prefix = args.group('prefix')
@@ -78,14 +78,14 @@ async def on_message(message):
 				await message.channel.send('sauce 1#1')
 				return
 			else:
-				await message.channel.send(f'sauce {list_id}')
+				await message.channel.send(f'sauce 1#{list_id}')
 				return
 		elif cmd == 'move':
 			if not list_id:
 				await message.channel.send('sauce move 1#1 2')
 				return
 			else:
-				await message.channel.send(f'sauce move {list_id} 2')
+				await message.channel.send(f'sauce move 1#{list_id} 2')
 				return
 	elif prefix == 'st':
 		if not cmd:
@@ -93,14 +93,14 @@ async def on_message(message):
 				await message.channel.send('sauce 2#1')
 				return
 			else:
-				await message.channel.send(f'sauce {list_id}')
+				await message.channel.send(f'sauce 2#{list_id}')
 				return
 		elif cmd == 'move':
 			if not list_id:
 				await message.channel.send('sauce move 2#1 3')
 				return
 			else:
-				await message.channel.send(f'sauce move {list_id} 3')
+				await message.channel.send(f'sauce move 2#{list_id} 3')
 				return
 	elif prefix == 'lc':
 		if not cmd:
@@ -108,14 +108,14 @@ async def on_message(message):
 				await message.channel.send('sauce lc 3#1')
 				return
 			else:
-				await message.channel.send(f'sauce lc {list_id}')
+				await message.channel.send(f'sauce lc 3#{list_id}')
 				return
 		elif cmd == 'move':
 			if not list_id:
 				await message.channel.send('sauce move 3#1 4')
 				return
 			else:
-				await message.channel.send(f'sauce move {list_id} 4')
+				await message.channel.send(f'sauce move 3#{list_id} 4')
 				return
 		elif cmd == 'asearch':
 			if switch == 'on':
@@ -144,20 +144,20 @@ async def on_message(message):
 			)
 			embed.add_field(
 				name='QC shortcuts',
-				value='`qc [id]`: equivalent to `sauce [id]` (defaults to 1#1).\n\n'
-				'`qc move [id]`: equivalent to `sauce move [id] 2` (defaults to 1#1).\n\n',
+				value='`qc [id]`: equivalent to `sauce 1#[id]` (defaults to 1#1).\n\n'
+				'`qc move [id]`: equivalent to `sauce move 1#[id] 2` (defaults to 1#1).\n\n',
 				inline=True
 			)
 			embed.add_field(
 				name='Sorting shortcuts',
-				value='`st [id]`: equivalent to `sauce [id]` (defaults to 2#1).\n\n'
-				'`st move [id]`: equivalent to `sauce move [id] 3` (defaults to 2#1).\n\n',
+				value='`st [id]`: equivalent to `sauce 2#[id]` (defaults to 2#1).\n\n'
+				'`st move [id]`: equivalent to `sauce move 2#[id] 3` (defaults to 2#1).\n\n',
 				inline=True
 			)
 			embed.add_field(
 				name='LC shortcuts',
-				value='`lc`: equivalent to `sauce lc 3#1`.\n\n'
-				'`lc move`: equivalent to `sauce move 3#1 4`.\n\n'
+				value='`lc`: equivalent to `sauce lc 3#[id]` (defaults to 3#1).\n\n'
+				'`lc move`: equivalent to `sauce move 3#[id] 4` (defaults to 3#1).\n\n'
 				'`lc asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n'
 				'`lc retry`: repeats Sriracha\'s last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n'
 				'`lc help` : this.\n\n'
