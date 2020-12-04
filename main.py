@@ -23,6 +23,13 @@ async def on_ready():
 	print('Logged in as {0.user}'.format(client))
 
 
+def clean_args(cmd: str, args):
+	try:
+		return args.groups(cmd)
+	except AttributeError:
+		return None
+
+
 @client.event
 async def on_message(message):
 	global author_search
@@ -59,10 +66,10 @@ async def on_message(message):
 		'^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help)?(?:\s(?P<switch>on|off))?(?P<list_id>\d+)?$',
 		message.content.strip().lower()
 	)
-	prefix = args.group('prefix')
-	cmd = args.group('cmd')
-	switch = args.group('switch')
-	list_id = args.group('list_id')
+	prefix = clean_args('prefix', args)
+	cmd = clean_args('cmd', args)
+	switch = clean_args('switch', args)
+	list_id = clean_args('list_id', args)
 	print(
 		f'prefix: {prefix}\n'
 		f'cmd: {cmd}\n'
