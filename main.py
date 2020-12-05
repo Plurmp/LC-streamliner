@@ -25,7 +25,7 @@ async def on_ready():
 
 def clean_args(cmd: str, args):
 	try:
-		return args.groups(cmd)
+		return args.group(cmd)
 	except AttributeError:
 		return None
 
