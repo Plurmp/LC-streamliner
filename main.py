@@ -63,7 +63,7 @@ async def on_message(message):
 			return
 
 	args = re.match(
-		'^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help)?(?:\s(?P<switch>on|off))?(?P<list_id>\d+)?$',
+		'^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help)?(?:\s(?P<switch>on|off))?(?:\s(?P<list_id>\d+))?$',
 		message.content.strip().lower()
 	)
 	prefix = clean_args('prefix', args)
