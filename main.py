@@ -36,7 +36,7 @@ async def on_message(message):
 	global last_sriracha_embed
 	global last_sriracha_lc
 
-	print('Received message')
+	print(f'Received message: {message}')
 
 	if message.author.id == client.user.id:
 		return
