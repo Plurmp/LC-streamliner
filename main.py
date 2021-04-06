@@ -38,7 +38,7 @@ async def on_message(message):
 
 	print('Received message: ' + message.content)
 	print('Message author: ' + message.author.name + ", " + str(message.author.id))
-	if re.findall('^Looking up .+ by .+?\.$', message.content):
+	if re.findall('^Looking up .+ by .+?\.$', message.content) and message.author.id == 640402425395675178:
 		print('found a match')
 	else:
 		print('no match')
