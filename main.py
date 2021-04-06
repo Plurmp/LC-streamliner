@@ -38,6 +38,10 @@ async def on_message(message):
 
 	print('Received message: ' + message.content)
 	print('Message author: ' + message.author.name + ", " + str(message.author.id))
+	if re.findall('^Looking up .+ by .+?\.$', message.content):
+		print('found a match')
+	else:
+		print('no match')
 	print()
 
 	if message.author.id == client.user.id:
@@ -50,11 +54,6 @@ async def on_message(message):
 			last_sriracha_lc[message.channel.name] = message
 			print('last sriracha lc: ' + last_sriracha_lc[message.channel.name].content)
 		return
-
-	if re.findall('^Looking up .+ by .+?\.$', message.content):
-		print('found a match')
-	else:
-		print('no match')
 
 	if message.author.id == 640402425395675178 and re.findall('^Looking up .+ by .+?\.$', message.content) and author_search:
 		# author ID is for License Checker or oh sheet
