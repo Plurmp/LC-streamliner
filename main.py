@@ -37,7 +37,7 @@ async def on_message(message):
 	global last_sriracha_lc
 
 	print('Received message: ' + message.content)
-	print('Message author: ' + message.author.name + ", " + message.author.id)
+	print('Message author: ' + message.author.name + ", " + str(message.author.id))
 
 	if message.author.id == client.user.id:
 		return
