@@ -57,6 +57,7 @@ async def on_message(message):
 
 	if message.author.id == 640402425395675178 and re.findall('^Looking up .+ by .+?\.$', message.content):
 		# author ID is for License Checker or oh sheet
+		print('in the if statement')
 		await message.channel.send('Author detected')
 		author = re.match('^Looking up .+ by (.+?)\.$', message.content).groups()[0]
 		if author == ():
