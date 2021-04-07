@@ -35,16 +35,13 @@ async def on_message(message):
 	global author_search
 	global last_sriracha_embed
 	global last_sriracha_lc
-	match = False
 
 	print('Received message: ' + message.content)
 	print('Message author: ' + message.author.name + ", " + str(message.author.id))
 	if re.findall('^Looking up .+ by .+?\.$', message.content) and message.author.id == 640402425395675178:
 		print('found a match')
-		match = True
 	else:
 		print('no match')
-		match = False
 	print()
 
 	if message.author.id == client.user.id:
@@ -56,10 +53,8 @@ async def on_message(message):
 		elif re.match('^\.lc.*', message.content):
 			last_sriracha_lc[message.channel.name] = message
 			print('last sriracha lc: ' + last_sriracha_lc[message.channel.name].content)
-		return
 
-	if match:
-		# author ID is for License Checker or oh sheet
+	if re.findall('^Looking up .+ by .+?\.$', message.content) and (message.author.id == 640402425395675178 or message.author.id == 661826254215053324):		# author ID is for License Checker or oh sheet
 		print('IN THE IF STATEMENT')
 		await message.channel.send('Author detected')
 		author = re.match('^Looking up .+ by (.+?)\.$', message.content).groups()[0]
