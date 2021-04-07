@@ -35,6 +35,7 @@ async def on_message(message):
 	global author_search
 	global last_sriracha_embed
 	global last_sriracha_lc
+	match = False
 
 	print('Received message: ' + message.content)
 	print('Message author: ' + message.author.name + ", " + str(message.author.id))
