@@ -55,7 +55,7 @@ async def on_message(message):
 			print('last sriracha lc: ' + last_sriracha_lc[message.channel.name].content)
 		return
 
-	if message.author.id == 640402425395675178 and re.findall('^Looking up .+ by .+?\.$', message.content):
+	if re.findall('^Looking up .+ by .+?\.$', message.content) and message.author.id == 640402425395675178:
 		# author ID is for License Checker or oh sheet
 		print('in the if statement')
 		await message.channel.send('Author detected')
