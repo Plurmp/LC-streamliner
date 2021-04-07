@@ -57,7 +57,7 @@ async def on_message(message):
 
 	if re.findall('^Looking up .+ by .+?\.$', message.content) and message.author.id == 640402425395675178:
 		# author ID is for License Checker or oh sheet
-		print('in the if statement')
+		print('IN THE IF STATEMENT')
 		await message.channel.send('Author detected')
 		author = re.match('^Looking up .+ by (.+?)\.$', message.content).groups()[0]
 		if author == ():
@@ -69,7 +69,7 @@ async def on_message(message):
 			await message.channel.send(f'sauce -qa {author_fixed}')
 			return
 	else:
-		print('if failed')
+		print('IN THE ELSE STATEMENT')
 
 	args = re.match(
 		'^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help)?(?:\s(?P<switch>on|off))?(?:\s(?P<list_id>\d+))?$',
