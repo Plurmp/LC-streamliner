@@ -68,6 +68,8 @@ async def on_message(message):
 			author_fixed = re.sub('-', '~', author)
 			await message.channel.send(f'sauce -qa {author_fixed}')
 			return
+	else:
+		print('if failed')
 
 	args = re.match(
 		'^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help)?(?:\s(?P<switch>on|off))?(?:\s(?P<list_id>\d+))?$',
