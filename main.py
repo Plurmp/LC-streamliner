@@ -38,7 +38,7 @@ async def on_message(message):
 
 	print('Received message: ' + message.content)
 	print('Message author: ' + message.author.name + ", " + str(message.author.id))
-	if re.findall('^Looking up .+ by .+?\.$', message.content) and message.author.id == 640402425395675178:
+	if re.findall(r'^Looking up .+ by .+?\.$', message.content) and message.author.id == 640402425395675178:
 		print('found a match')
 	else:
 		print('no match')
@@ -50,14 +50,15 @@ async def on_message(message):
 		if message.embeds:
 			last_sriracha_embed[message.channel.name] = message
 		# print(last_sriracha_embed[message.channel.name].content)
-		elif re.match('^\.lc.*', message.content):
+		elif re.match(r'^\.lc.*', message.content):
 			last_sriracha_lc[message.channel.name] = message
 			print('last sriracha lc: ' + last_sriracha_lc[message.channel.name].content)
 
-	if re.findall('^Looking up .+ by .+?\.$', message.content) and (message.author.id == 640402425395675178 or message.author.id == 661826254215053324):		# author ID is for License Checker or oh sheet
+	if re.findall(r'^Looking up .+ by .+?\.$', message.content) and (
+			message.author.id == 640402425395675178 or message.author.id == 661826254215053324):  # author ID is for License Checker or oh sheet
 		print('IN THE IF STATEMENT')
 		await message.channel.send('Author detected')
-		author = re.match('^Looking up .+ by (.+?)\.$', message.content).groups()[0]
+		author = re.match(r'^Looking up .+ by (.+?)\.$', message.content).groups()[0]
 		if author == ():
 			await message.channel.send('Could not get author')
 			return
@@ -70,7 +71,7 @@ async def on_message(message):
 		print('IN THE ELSE STATEMENT')
 
 	args = re.match(
-		'^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help)?(?:\s(?P<switch>on|off))?(?:\s(?P<list_id>\d+))?$',
+		r'^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help)?(?:\s(?P<switch>on|off))?(?:\s(?P<list_id>\d+))?$',
 		message.content.strip().lower()
 	)
 	prefix = clean_args('prefix', args)
@@ -159,23 +160,23 @@ async def on_message(message):
 			embed.add_field(
 				name='QC shortcuts',
 				value='`qc [id]`: equivalent to `sauce 1#[id]` (defaults to 1#1).\n\n'
-					  '`qc move [id]`: equivalent to `sauce move 1#[id] 2` (defaults to 1#1).\n\n',
+				      '`qc move [id]`: equivalent to `sauce move 1#[id] 2` (defaults to 1#1).\n\n',
 				inline=True
 			)
 			embed.add_field(
 				name='Sorting shortcuts',
 				value='`st [id]`: equivalent to `sauce 2#[id]` (defaults to 2#1).\n\n'
-					  '`st move [id]`: equivalent to `sauce move 2#[id] 3` (defaults to 2#1).\n\n',
+				      '`st move [id]`: equivalent to `sauce move 2#[id] 3` (defaults to 2#1).\n\n',
 				inline=True
 			)
 			embed.add_field(
 				name='LC shortcuts',
 				value='`lc`: equivalent to `sauce lc 3#[id]` (defaults to 3#1).\n\n'
-					  '`lc move`: equivalent to `sauce move 3#[id] 4` (defaults to 3#1).\n\n'
-					  '`lc asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n'
-					  '`lc retry`: repeats Sriracha\'s last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n'
-					  '`lc help` : this.\n\n'
-					  '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n',
+				      '`lc move`: equivalent to `sauce move 3#[id] 4` (defaults to 3#1).\n\n'
+				      '`lc asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n'
+				      '`lc retry`: repeats Sriracha\'s last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n'
+				      '`lc help` : this.\n\n'
+				      '`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n',
 				inline=True
 			)
 			embed.set_author(
