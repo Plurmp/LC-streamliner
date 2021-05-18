@@ -4,6 +4,7 @@ from datetime import datetime
 from os import environ as cred
 
 import discord
+from discord import HTTPException
 
 TOKEN = cred['DISCORD_TOKEN']
 client = discord.Client()
@@ -193,9 +194,17 @@ async def on_message(message):
 			await message.channel.send(embed=embed)
 			return
 	elif prefix == 'en':
+		try:
+			await last_sriracha_embed[message.channel.name].remove_reaction('🇺🇸')
+		except HTTPException:
+			pass
 		await last_sriracha_embed[message.channel.name].add_reaction('🇺🇸')
 		return
 	elif prefix == 'jp':
+		try:
+			await last_sriracha_embed[message.channel.name].remove_reaction('🇯🇵')
+		except HTTPException:
+			pass
 		await last_sriracha_embed[message.channel.name].add_reaction('🇯🇵')
 		return
 
