@@ -195,14 +195,14 @@ async def on_message(message):
 			return
 	elif prefix == 'en':
 		try:
-			await last_sriracha_embed[message.channel.name].remove_reaction('🇺🇸', client)
+			await last_sriracha_embed[message.channel.name].remove_reaction('🇺🇸', discord.ClientUser)
 		except HTTPException:
 			pass
 		await last_sriracha_embed[message.channel.name].add_reaction('🇺🇸')
 		return
 	elif prefix == 'jp':
 		try:
-			await last_sriracha_embed[message.channel.name].remove_reaction('🇯🇵', client)
+			await last_sriracha_embed[message.channel.name].remove_reaction('🇯🇵', discord.ClientUser)
 		except HTTPException:
 			pass
 		await last_sriracha_embed[message.channel.name].add_reaction('🇯🇵')
