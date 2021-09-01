@@ -58,7 +58,7 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
                 if (
                     f.name.strip() == "Tier"
                     and f.value.strip() == "Not set"
-                    and re.match(r"ID: 3#\d", f.footer.text)
+                    and re.match(r"ID: 3#\d", message_event.embeds[0].footer.text)
                 ):
                     await message.respond("**WARNING: TIER NOT SET**")
                     return
