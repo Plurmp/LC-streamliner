@@ -4,14 +4,14 @@ from datetime import datetime
 from os import environ as cred
 
 import hikari
-from hikari import HTTPError
+from hikari import NotFoundError
 from hikari.presences import Activity, ActivityType
 
 TOKEN = cred['DISCORD_TOKEN']
 last_sriracha_embed = {}
 last_sriracha_lc = {}
 
-bot = hikari.GatewayBot(token=TOKEN, intents=hikari.Intents.ALL)
+bot = hikari.GatewayBot(token=TOKEN)
 
 
 @bot.listen()
@@ -39,14 +39,41 @@ def is_worker_bot(message_event: hikari.GuildMessageCreateEvent) -> bool:
 @bot.listen()
 async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
     message = message_event.message
-    if not message_event.content or message_event.author_id == bot.get_me().id:
+    if (
+            # not message_event.content and not message_event.embeds or
+            message_event.author_id == bot.get_me().id
+    ):
         return
 
-    global author_search
     global last_sriracha_embed
     global last_sriracha_lc
 
-    print("Received message: " + message_event.content)
+    if is_worker_bot(message_event):
+        print("Worker Bot found!")
+        if message_event.embeds:
+            print("Has embeds!")
+            last_sriracha_embed[message_event.get_channel().name] = message
+
+            for f in message_event.embeds[0].fields:
+                if (
+                    f.name.strip() == "Tier"
+                    and f.value.strip() == "Not set"
+                    and re.match(r"ID: 3#\d", f.footer.text)
+                ):
+                    await message.respond("**WARNING: TIER NOT SET**")
+                    return
+        elif re.match(r"^\.lc.*", message.content):
+            last_sriracha_lc[message_event.get_channel().name] = message
+            print(
+                "last sriracha lc: "
+                + last_sriracha_lc[message_event.get_channel().name].content
+            )
+        return
+
+    if not message.content:
+        return
+
+    print("Received message: " + str(message_event.content))
     print(
         "Message author: "
         + message_event.author.username
@@ -63,33 +90,13 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
         print("no match")
     print()
 
-    if is_worker_bot:
-        if message_event.embeds:
-            last_sriracha_embed[message_event.get_channel().name] = message
-
-            for f in message_event.embeds[0].fields:
-                if (
-                    f.name.strip() == "Tier"
-                    and f.value.strip() == "Not set"
-                    and re.match(r"ID: 3#\d", f.footer.text)
-                ):
-                    await message.respond("**WARNING: TIER NOT SET**")
-                    return
-
-        elif re.match(r"^\.lc.*", message.content):
-            last_sriracha_lc[message_event.get_channel().name] = message
-            print(
-                "last sriracha lc: "
-                + last_sriracha_lc[message_event.get_channel().name].content
-            )
-
     if re.findall(r"^Looking up .+ by .+?\.$", message.content) and (
         message.author.id == 640402425395675178
         or message.author.id == 661826254215053324
     ):
         print("IN THE IF STATEMENT")
         await message.respond("Author detected")
-        author = re.match(r"^Looking up .+ by (.+?)\.$", message.content).group()[0]
+        author = re.match(r"^Looking up .+ by (?P<author>.+?)\.$", message.content).group('author')
 
         if author == ():
             await message.respond("Could not get author")
@@ -103,17 +110,15 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
         print("IN THE ELSE STATEMENT")
 
     args = re.match(
-        r"^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>asearch|retry|move|help|del|delete|delet)?(?:\s(?P<switch>on|off))?(?:\s(?P<list_id>\d+))?$",
+        r"^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>retry|move|help|del|delete|delet)?(?:\s(?P<list_id>\d+))?$",
         message.content.strip().lower(),
     )
     prefix = clean_args("prefix", args)
     cmd = clean_args("cmd", args)
-    switch = clean_args("switch", args)
     list_id = clean_args("list_id", args)
     print(
         f"prefix: {prefix}\n"
         f"cmd: {cmd}\n"
-        f"switch: {switch}\n"
         f"list_id: {list_id}\n"
     )
 
@@ -220,7 +225,6 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
                 value="`lc`: equivalent to `sauce lc 3#[id]` (defaults to 3#1).\n\n"
                 "`lc move`: equivalent to `sauce move 3#[id] 4` (defaults to 3#1).\n\n"
                 "`lc del/delete/delet [id]`: equivalent to `sauce delete 3#[id]` (defaults to 3#1).\n\n"
-                "`lc asearch [on | off]`: turns automatic author search on or off (does `sauce -qa [author]` when License Checker identifies the author).\n\n"
                 "`lc retry`: repeats Sriracha's last `.lc` command in the channel. Use if License Checker freezes on a search.\n\n"
                 "`lc help` : this.\n\n"
                 "`[en | jp]`: reacts with 🇺🇸 or 🇯🇵 to the last Sriracha message in the channel.\n\n",
@@ -228,35 +232,33 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
             )
             embed.set_author(
                 name="LC streamliner",
-                icon_url="https://cdn.discordapp.com/avatars/755803753000730725/3d3632c3ebc7a5ac3fffeb20387f4d40.png?size=256",
+                icon="https://cdn.discordapp.com/avatars/755803753000730725/3d3632c3ebc7a5ac3fffeb20387f4d40.png?size=256",
             )
             embed.set_footer(
                 text="Made by Plurmp McFlurnten#7538",
-                icon="https://cdn.discordapp.com/avatars/286339479910875136/2a9e61a6c9d706522a725ba15f3ed2d3.png?size=256",
+                icon="https://cdn.discordapp.com/avatars/286339479910875136/b09e8949f7ce718dbcfe6747b7e854f6.png?size=256",
             )
             embed.set_thumbnail(
-                image="https://cdn.discordapp.com/avatars/755803753000730725/3d3632c3ebc7a5ac3fffeb20387f4d40.png?size=256"
+                'https://cdn.discordapp.com/avatars/755803753000730725/3d3632c3ebc7a5ac3fffeb20387f4d40.png?size=256'
             )
             await message.respond(embed=embed)
             return
 
     elif prefix == "en":
         try:
-            await last_sriracha_embed[message_event.get_channel().name].remove_reaction(
-                "🇺🇸"
-            )
-        except HTTPError:
+            await last_sriracha_embed[message_event.get_channel().name].remove_reaction("🇺🇸")
+        except NotFoundError:
             pass
         await last_sriracha_embed[message_event.get_channel().name].add_reaction("🇺🇸")
 
     elif prefix == "jp":
         try:
-            await last_sriracha_embed[message_event.get_channel().name].remove_reaction(
-                "🇯🇵"
-            )
-        except HTTPError:
+            await last_sriracha_embed[message_event.get_channel().name].remove_reaction("🇯🇵")
+        except NotFoundError:
             pass
         await last_sriracha_embed[message_event.get_channel().name].add_reaction("🇯🇵")
 
 
-bot.run(activity=Activity(name="Sriracha | lc help", type=ActivityType.WATCHING))
+bot.run(
+    activity=Activity(name="Sriracha | lc help", type=ActivityType.WATCHING)
+)
