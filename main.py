@@ -8,8 +8,6 @@ import hikari
 from hikari import NotFoundError
 from hikari.presences import Activity, ActivityType
 
-from dotenv import load_dotenv
-load_dotenv()
 
 TOKEN = cred['DISCORD_TOKEN']
 last_sriracha_embed = {}
