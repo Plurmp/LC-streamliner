@@ -1,22 +1,35 @@
 import re
 import time
-from datetime import datetime
+import logging
+from datetime import datetime, timezone
 from os import environ as cred
 
 import hikari
 from hikari import NotFoundError
 from hikari.presences import Activity, ActivityType
 
+from dotenv import load_dotenv
+load_dotenv()
+
 TOKEN = cred['DISCORD_TOKEN']
 last_sriracha_embed = {}
 last_sriracha_lc = {}
+bots = {
+    "sriracha": 607661949194469376,
+    "ohsheet": 640402425395675178,
+    "lc": 661826254215053324
+}
 
-bot = hikari.GatewayBot(token=TOKEN)
+logger = logging.getLogger("Mortal Log")
+ANTIBUG = logging.INFO - 5
+logging.addLevelName(ANTIBUG, "INDIAN_CUSTOMER_SERVICE")
+
+bot = hikari.GatewayBot(token=TOKEN, logs="INDIAN_CUSTOMER_SERVICE")
+prefixes = ("lc", "qc", "st", "en", "jp")
 
 
-@bot.listen()
-async def print_stuff(event: hikari.StartedEvent) -> None:
-    print(f"Logged in as {bot.get_me().username}")
+def mortallog(log_message: str):
+    logger.log(ANTIBUG, log_message)
 
 
 def clean_args(cmd: str, args):
@@ -26,10 +39,10 @@ def clean_args(cmd: str, args):
         return None
 
 
-def is_worker_bot(message_event: hikari.GuildMessageCreateEvent) -> bool:
+def is_sriracha_bot(message_event: hikari.GuildMessageCreateEvent) -> bool:
     if (
-        message_event.author_id == 607661949194469376
-        or message_event.author_id == 640402425395675178
+        message_event.author_id == bots["sriracha"]
+        or message_event.author_id == bots["ohsheet"]
     ):
         return True
     else:
@@ -39,6 +52,7 @@ def is_worker_bot(message_event: hikari.GuildMessageCreateEvent) -> bool:
 @bot.listen()
 async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
     message = message_event.message
+
     if (
             # not message_event.content and not message_event.embeds or
             message_event.author_id == bot.get_me().id
@@ -48,10 +62,10 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
     global last_sriracha_embed
     global last_sriracha_lc
 
-    if is_worker_bot(message_event):
-        print("Worker Bot found!")
+    if is_sriracha_bot(message_event):
+        mortallog("Sriracha/oh sheet Bot found!")
         if message_event.embeds:
-            print("Has embeds!")
+            mortallog("Has embeds!")
             last_sriracha_embed[message_event.get_channel().name] = message
 
             for f in message_event.embeds[0].fields:
@@ -64,17 +78,17 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
                     return
         elif re.match(r"^\.lc.*", message.content):
             last_sriracha_lc[message_event.get_channel().name] = message
-            print(
+            mortallog(
                 "last sriracha lc: "
                 + last_sriracha_lc[message_event.get_channel().name].content
             )
         return
 
-    if not message.content:
+    if not message.content or not message.content.startswith(prefixes):
         return
 
-    print("Received message: " + str(message_event.content))
-    print(
+    mortallog("Received message: " + str(message_event.content))
+    mortallog(
         "Message author: "
         + message_event.author.username
         + ", "
@@ -83,31 +97,32 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
 
     if (
         re.findall(r"^Looking up .+ by .+?\.$", message_event.content)
-        and message_event.author_id == 640402425395675178
+        and message_event.author_id == bots["ohsheet"]
     ):
-        print("found a match")
+        mortallog("found a match")
     else:
-        print("no match")
+        mortallog("no match")
     print()
 
     if re.findall(r"^Looking up .+ by .+?\.$", message.content) and (
-        message.author.id == 640402425395675178
-        or message.author.id == 661826254215053324
+        message.author.id == bots["ohsheet"]
+        or message.author.id == bots["lc"]
     ):
-        print("IN THE IF STATEMENT")
+        mortallog("Detecting author")
         await message.respond("Author detected")
-        author = re.match(r"^Looking up .+ by (?P<author>.+?)\.$", message.content).group('author')
+        author = re.match(r"^Looking up .+ by (?P<author>.+?)\.$",
+                          message.content).group('author')
 
         if author == ():
             await message.respond("Could not get author")
             return
         else:
-            time.sleep(2)
-#             author_fixed = re.sub(r"-", "~", author)
-            await message.respond(f"sauce -qa {author}")
+            time.sleep(3)
+            author_fixed = re.sub(r"-", "~", author)
+            await message.respond(f"sauce -qa {author_fixed}")
             return
     else:
-        print("IN THE ELSE STATEMENT")
+        mortallog("Not searching for author...")
 
     args = re.match(
         r"^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>retry|move|help|del|delete|delet)?(?:\s(?P<list_id>\d+))?$",
@@ -116,11 +131,7 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
     prefix = clean_args("prefix", args)
     cmd = clean_args("cmd", args)
     list_id = clean_args("list_id", args)
-    print(
-        f"prefix: {prefix}\n"
-        f"cmd: {cmd}\n"
-        f"list_id: {list_id}\n"
-    )
+    mortallog(f"prefix: {prefix} | cmd: {cmd} | list_id: {list_id}")
 
     if not prefix:
         return
@@ -201,10 +212,11 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
                 return
 
         elif cmd == "help":
+            app_data = await bot.rest.fetch_application()
             embed = hikari.Embed(
                 title="Commands",
                 color=hikari.Color.from_rgb(171, 110, 71),
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
             )
             embed.add_field(
                 name="QC shortcuts",
@@ -232,14 +244,14 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
             )
             embed.set_author(
                 name="LC streamliner",
-                icon="https://cdn.discordapp.com/avatars/755803753000730725/3d3632c3ebc7a5ac3fffeb20387f4d40.png?size=256",
+                icon=bot.get_me().avatar_url
             )
             embed.set_footer(
                 text="Made by Plurmp McFlurnten#7538",
-                icon="https://cdn.discordapp.com/avatars/286339479910875136/b09e8949f7ce718dbcfe6747b7e854f6.png?size=256",
+                icon=app_data.owner.avatar_url
             )
             embed.set_thumbnail(
-                'https://cdn.discordapp.com/avatars/755803753000730725/3d3632c3ebc7a5ac3fffeb20387f4d40.png?size=256'
+                bot.get_me().avatar_url
             )
             await message.respond(embed=embed)
             return
