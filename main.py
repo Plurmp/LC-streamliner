@@ -103,8 +103,8 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
             return
         else:
             time.sleep(2)
-            author_fixed = re.sub(r"-", "~", author)
-            await message.respond(f"sauce -qa {author_fixed}")
+#             author_fixed = re.sub(r"-", "~", author)
+            await message.respond(f"sauce -qa {author}")
             return
     else:
         print("IN THE ELSE STATEMENT")
