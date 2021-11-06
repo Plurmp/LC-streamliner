@@ -32,7 +32,7 @@ def mortallog(log_message: str):
 
 def clean_args(cmd: str, args):
     try:
-        return args.group(cmd)
+        return args.group(cmd).lower()
     except AttributeError:
         return None
 
@@ -82,7 +82,7 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
             )
         return
 
-    if not message.content or not message.content.startswith(prefixes):
+    if not message.content or not message.content.lower().startswith(prefixes):
         return
 
     mortallog("Received message: " + str(message_event.content))
@@ -129,12 +129,13 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
     prefix = clean_args("prefix", args)
     cmd = clean_args("cmd", args)
     list_id = clean_args("list_id", args)
+
     mortallog(f"prefix: {prefix} | cmd: {cmd} | list_id: {list_id}")
 
     if not prefix:
         return
 
-    elif prefix.lower() == "qc":
+    elif prefix == "qc":
         if not cmd:
             if not list_id:
                 await message.respond("sauce 1#1")
