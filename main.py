@@ -67,13 +67,20 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
             last_sriracha_embed[message_event.get_channel().name] = message
 
             for f in message_event.embeds[0].fields:
-                if (
-                    f.name.strip() == "Tier"
-                    and f.value.strip() == "Not set"
-                    and re.match(r"ID: 3#\d", message_event.embeds[0].footer.text)
-                ):
-                    await message.respond("**WARNING: TIER NOT SET**")
-                    return
+                # if (
+                #     f.name.strip() == "Tier"
+                #     and f.value.strip() == "Not set"
+                #     and re.match(r"ID: 3#\d", message_event.embeds[0].footer.text)
+                # ):
+                #     await message.respond("**WARNING: TIER NOT SET**")
+                #     return
+                if f.name.strip() == "Tier":
+                    if f.value.strip() == "Not set" and re.match(r"ID: 3#\d", message_event.embeds[0].footer.text):
+                        await message.respond("**WARNING: TIER NOT SET**")
+                        return
+                    elif "~" in f.value.strip():
+                        await message.respond("**WARNING: TILDE IN TIER**")
+                        return
         elif re.match(r"^\.lc.*", message.content):
             last_sriracha_lc[message_event.get_channel().name] = message
             mortallog(
