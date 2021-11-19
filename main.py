@@ -32,7 +32,7 @@ def mortallog(log_message: str):
 
 def clean_args(cmd: str, args):
     try:
-        return args.group(cmd).lower()
+        return args.group(cmd)
     except AttributeError:
         return None
 
@@ -82,9 +82,6 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
             )
         return
 
-    if not message.content or not message.content.lower().startswith(prefixes):
-        return
-
     mortallog("Received message: " + str(message_event.content))
     mortallog(
         "Message author: "
@@ -122,6 +119,9 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
     else:
         mortallog("Not searching for author...")
 
+    if not message.content or not message.content.startswith(prefixes):
+        return
+
     args = re.match(
         r"^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>retry|move|help|del|delete|delet)?(?:\s(?P<list_id>\d+))?$",
         message.content.strip().lower(),
@@ -129,13 +129,12 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
     prefix = clean_args("prefix", args)
     cmd = clean_args("cmd", args)
     list_id = clean_args("list_id", args)
-
     mortallog(f"prefix: {prefix} | cmd: {cmd} | list_id: {list_id}")
 
     if not prefix:
         return
 
-    elif prefix == "qc":
+    elif prefix.lower() == "qc":
         if not cmd:
             if not list_id:
                 await message.respond("sauce 1#1")
