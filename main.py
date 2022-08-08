@@ -130,13 +130,14 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
         return
 
     args = re.match(
-        r"^(?P<prefix>lc|qc|st|en|jp)\s*(?P<cmd>retry|move|help|del|delete|delet)?(?:\s(?P<list_id>\d+))?$",
+        r"^(?P<prefix>lc|qc|st|en|jp|l3)\s*(?P<cmd>retry|move|help|del|delete|delet)?(?:\s(?P<list_id>\d+))?(?:\s(?P<link>\S+))?$",
         message.content.strip().lower(),
     )
     prefix = clean_args("prefix", args)
     cmd = clean_args("cmd", args)
     list_id = clean_args("list_id", args)
-    mortallog(f"prefix: {prefix} | cmd: {cmd} | list_id: {list_id}")
+    link = clean_args("link", args)
+    mortallog(f"prefix: {prefix} | cmd: {cmd} | list_id: {list_id} | link: {link}")
 
     if not prefix:
         return
@@ -274,6 +275,10 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
         except NotFoundError:
             pass
         await last_sriracha_embed[message_event.get_channel().name].add_reaction("🇯🇵")
+
+    elif prefix == "l3":
+        if list_id and link:
+            await message.respond(f"sauce 4#{list_id} -l3 {link}")
 
 
 bot.run(
