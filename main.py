@@ -23,7 +23,7 @@ ANTIBUG = logging.INFO - 5
 logging.addLevelName(ANTIBUG, "INDIAN_CUSTOMER_SERVICE")
 
 bot = hikari.GatewayBot(token=TOKEN, logs="INDIAN_CUSTOMER_SERVICE")
-prefixes = ("lc", "qc", "st", "en", "jp")
+prefixes = ("lc", "qc", "st", "en", "jp", "l3")
 
 
 def mortallog(log_message: str):
