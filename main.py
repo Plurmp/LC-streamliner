@@ -89,6 +89,13 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
                     elif "~" in f.value.strip():
                         await message.respond("**WARNING: TILDE IN TIER**")
                         return
+                elif (
+                        f.name.strip() == "All Links"
+                        and "E-Hentai" not in f.value.strip()
+                        and re.match(r"ID: 3#\d", message_event.embeds[0].footer.text)
+                ):
+                    await message.respond("**WARNING: NO E-HENTAI LINK**")
+                    return
         elif re.match(r"^\.lc.*", message.content):
             last_sriracha_lc[message_event.get_channel().name] = message
             mortallog(
