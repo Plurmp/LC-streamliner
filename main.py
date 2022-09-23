@@ -126,7 +126,7 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
     else:
         mortallog("Not searching for author...")
 
-    if not message.content or not message.content.startswith(prefixes):
+    if not message.content or not message.content.lower().startswith(prefixes):
         mortallog("Does not match prefixes")
         return
 
