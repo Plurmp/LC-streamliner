@@ -95,7 +95,6 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
                 "last sriracha lc: "
                 + last_sriracha_lc[message_event.get_channel().name].content
             )
-        return
 
     if (
         re.findall(r"^Looking up .+ by .+?\.$", message_event.content)
