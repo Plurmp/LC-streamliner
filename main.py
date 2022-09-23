@@ -60,6 +60,14 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
     global last_sriracha_embed
     global last_sriracha_lc
 
+    mortallog("Received message: " + str(message_event.content))
+    mortallog(
+        "Message author: "
+        + message_event.author.username
+        + ", "
+        + str(message_event.author_id)
+    )
+
     if is_sriracha_bot(message_event):
         mortallog("Sriracha/oh sheet Bot found!")
         if message_event.embeds:
@@ -89,17 +97,9 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
             )
         return
 
-    mortallog("Received message: " + str(message_event.content))
-    mortallog(
-        "Message author: "
-        + message_event.author.username
-        + ", "
-        + str(message_event.author_id)
-    )
-
     if (
         re.findall(r"^Looking up .+ by .+?\.$", message_event.content)
-        and message_event.author_id == bots["ohsheet"]
+        and (message_event.author_id == bots["ohsheet"] or message_event.author_id == bots["lc"])
     ):
         mortallog("found a match")
     else:
