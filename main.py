@@ -15,7 +15,8 @@ last_sriracha_lc = {}
 bots = {
     "sriracha": 607661949194469376,
     "ohsheet": 640402425395675178,
-    "lc": 661826254215053324
+    "lc": 661826254215053324,
+    "fort checker": 1014282115086565486
 }
 
 logger = logging.getLogger("Mortal Log")
@@ -89,13 +90,7 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
                     elif "~" in f.value.strip():
                         await message.respond("**WARNING: TILDE IN TIER**")
                         return
-                elif (
-                        f.name.strip() == "All Links"
-                        and "E-Hentai" not in f.value.strip()
-                        and re.match(r"ID: 3#\d", message_event.embeds[0].footer.text)
-                ):
-                    await message.respond("**WARNING: NO E-HENTAI LINK**")
-                    return
+
         elif re.match(r"^\.lc.*", message.content):
             last_sriracha_lc[message_event.get_channel().name] = message
             mortallog(
@@ -105,7 +100,9 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
 
     if (
         re.findall(r"^Looking up .+ by .+?\.$", message_event.content)
-        and (message_event.author_id == bots["ohsheet"] or message_event.author_id == bots["lc"])
+        and (message_event.author_id == bots["ohsheet"]
+             or message_event.author_id == bots["lc"]
+             or message_event.author_id == bots["fort checker"])
     ):
         mortallog("found a match")
     else:
@@ -115,6 +112,7 @@ async def listen_to_us(message_event: hikari.GuildMessageCreateEvent) -> None:
     if re.findall(r"^Looking up .+ by .+?\.$", message.content) and (
         message.author.id == bots["ohsheet"]
         or message.author.id == bots["lc"]
+        or message.author.id == bots["fort checker"]
     ):
         mortallog("Detecting author")
         await message.respond("Author detected")
